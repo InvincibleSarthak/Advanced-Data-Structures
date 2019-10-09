@@ -93,7 +93,8 @@ Node* inOrderSuccessor(Node* node) {
 }
 
 Node* deleteNode(Node* node, int a) {
-    if(node == NULL) return node;
+    Node* temp;
+    if(node == NULL) return NULL;
     if(a < node->key){
         node->left = deleteNode(node->left,a);
     }
@@ -102,20 +103,10 @@ Node* deleteNode(Node* node, int a) {
     }
     else {
         if(node->left == NULL || node->right == NULL) {
-            if(node->left == NULL && node->right == NULL) {
-                delete(node);
-            }
-            else {
-                Node* temp = node;
-                if(node->left) {
-                    temp = node->left;
-                }
-                else {
-                    temp = node->right;
-                }
-                node = temp;
-                delete(temp);
-            } 
+             temp = node;
+             if(node->left == NULL) node = node->right;
+             else if(node->right == NULL) node = node->left;
+             delete(temp);
         }
         else {
             Node* temp = inOrderSuccessor(node->right);
